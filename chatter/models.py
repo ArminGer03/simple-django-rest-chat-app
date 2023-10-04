@@ -1,3 +1,16 @@
-from django.db import models
+from django.contrib.auth.models import AbstractUser, models
 
-# Create your models here.
+
+class CustomUser(AbstractUser):
+    # todo
+    pass
+
+
+class Room(models.Model):
+    # todo
+    pass
+
+
+class Message(models.Model):
+    # todo
+    pass
