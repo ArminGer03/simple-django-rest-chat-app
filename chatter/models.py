@@ -1,8 +1,12 @@
-from django.contrib.auth.models import AbstractUser, models
+from django.contrib.auth.models import models, AbstractUser
+from django.contrib.auth.models import User
 
 
 class CustomUser(AbstractUser):
-    pass
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Room(models.Model):
