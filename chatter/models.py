@@ -7,8 +7,8 @@ class CustomUser(AbstractUser):
 
 class Room(models.Model):
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    members = models.ManyToManyField(CustomUser, on_delete=models.PROTECT)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='owned_rooms')
+    members = models.ManyToManyField(CustomUser)
 
 
 class Message(models.Model):
