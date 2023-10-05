@@ -93,9 +93,16 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {
+            'max_similarity': 0.5,
+            'user_attributes': ("username", "email")
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+           'min_length': 6,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -103,6 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    # {
+    #     'NAME': 'myapp.validators.UppercaseValidator',
+    # },
+    # {
+    #     'NAME': 'myapp.validators.SpecialCharValidator',
+    # },
 ]
 
 AUTH_USER_MODEL = "chatter.CustomUser"
@@ -110,8 +123,9 @@ AUTH_USER_MODEL = "chatter.CustomUser"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
-    # Other settings...
+
 }
 
 # Internationalization
