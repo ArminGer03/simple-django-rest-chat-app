@@ -110,23 +110,23 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    # {
-    #     'NAME': 'myapp.validators.UppercaseValidator',
-    # },
-    # {
-    #     'NAME': 'myapp.validators.SpecialCharValidator',
-    # },
+    {
+        'NAME': 'chatter.validators.UppercaseValidator',
+    },
+    {
+        'NAME': 'chatter.validators.SpecialCharValidator',
+    }
 ]
 
 AUTH_USER_MODEL = "chatter.CustomUser"
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ],
-
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ],
+#
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
