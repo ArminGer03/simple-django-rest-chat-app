@@ -5,10 +5,16 @@ from django.core.exceptions import ValidationError
 
 
 class UserSerializer(serializers.ModelSerializer):
+    confirm_password = serializers.CharField(write_only=True)
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'confirm_password']
         extra_kwargs = {'password': {'write_only': True}}
+
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
 
     def validate_password(self, value):
         try:
