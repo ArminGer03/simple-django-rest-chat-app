@@ -1,12 +1,11 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from .serializers import UserSerializer
 
 
-@api_view(['POST'])
-def register_user(request):
-    if request.method == 'POST':
+class RegisterUser(APIView):
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         print(serializer.validated_data)
