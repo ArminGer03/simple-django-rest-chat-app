@@ -15,12 +15,15 @@ class RegisterUser(mixins.CreateModelMixin, GenericAPIView):
 class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIView):
     serializer_class = UserMenuSerializer
 
-    def get(self, request, id, **kwargs):
-        owner = get_object_or_404(CustomUser, username=id)
-        queryset = Room.objects.get(owner=owner)
+    def get_queryset(self):
+        return Room.objects.all
+
+    def get(self, request, *args, **kwargs):
+        owner = get_object_or_404(CustomUser, username=self.kwargs['id'])
+        queryset = Room.objects.filter(owner=owner)
         serializer = UserMenuSerializer(queryset, many=True)
         return Response(serializer.data)
-        # return self.create(request, *args, **kwargs)
+
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
