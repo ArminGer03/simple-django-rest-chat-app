@@ -20,8 +20,9 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
+        # id value is set in self kwargs
         context.update({'user_id': self.kwargs['id']})
         return context
-    
-    def post(self, request, id, *args, **kwargs):
-        return self.create(request, context={'user_id': id}, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)

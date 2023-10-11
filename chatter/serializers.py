@@ -43,14 +43,13 @@ class UserMenuSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_id = self.context['user_id']
-        print(user_id)
-        return Room.objects.first()
-        # with transaction.atomic():
-        #     owner = get_object_or_404(CustomUser, username=user_id)
-        #     room = Room(
-        #         name=validated_data['name'],
-        #         owner=owner
-        #     )
-        #     room.save()
-        #     room.members.set(validated_data['members'])
-        #     return room
+        with transaction.atomic():
+            #todo authenticate
+            owner = get_object_or_404(CustomUser, username=user_id)
+            room = Room(
+                name=validated_data['name'],
+                owner=owner
+            )
+            room.save()
+            room.members.set(validated_data['members'])
+            return room
