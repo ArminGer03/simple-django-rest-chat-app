@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
 
 
 class Room(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='owned_rooms')
     members = models.ManyToManyField(CustomUser)
 
