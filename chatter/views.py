@@ -1,7 +1,8 @@
 from rest_framework import mixins
 from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, get_object_or_404
 from .serializers import UserSerializer, UserMenuSerializer
+from .models import Room, CustomUser
 
 
 class RegisterUser(mixins.CreateModelMixin, GenericAPIView):
@@ -15,7 +16,10 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
     serializer_class = UserMenuSerializer
 
     def get(self, request, id, **kwargs):
-        return Response(id)
+        owner = get_object_or_404(CustomUser, username=id)
+        queryset = Room.objects.get(owner=owner)
+        serializer = UserMenuSerializer(queryset, many=True)
+        return Response(serializer.data)
         # return self.create(request, *args, **kwargs)
 
     def get_serializer_context(self):
