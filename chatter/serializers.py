@@ -1,11 +1,14 @@
+from django.db import transaction
 from rest_framework import serializers
-from .models import CustomUser
+from rest_framework.generics import get_object_or_404
+from .models import CustomUser, Room
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
 
 class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
+
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password', 'confirm_password']
@@ -31,3 +34,21 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class UserMenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = ['name', 'members']
+
+    def create(self, validated_data):
+        user_id = self.context('user_id')
+        with transaction.atomic:
+            owner = get_object_or_404(CustomUser, username=user_id)
+            room = Room(
+                name=validated_data['name'],
+                owner=owner
+            )
+            room.save()
+            room.members.set(validated_data['members'])
+            return room
