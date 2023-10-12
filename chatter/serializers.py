@@ -37,9 +37,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserMenuSerializer(serializers.ModelSerializer):
+    member_usernames = serializers.SerializerMethodField()
+
     class Meta:
         model = Room
-        fields = ['name', 'members']
+        fields = ['name', 'members', 'member_usernames']
+
+    def get_member_usernames(self, obj):
+        return [member.username for member in obj.members.all()]
 
     def create(self, validated_data):
         user_id = self.context['user_id']
