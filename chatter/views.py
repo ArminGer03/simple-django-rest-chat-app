@@ -1,7 +1,9 @@
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, get_object_or_404
-from .serializers import UserSerializer, UserMenuSerializer
+from rest_framework.viewsets import ModelViewSet
+from .models import Message
+from .serializers import UserSerializer, UserMenuSerializer, MessageSerializer
 from .models import Room, CustomUser
 
 
@@ -33,3 +35,8 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+
+class RoomMessages(ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer

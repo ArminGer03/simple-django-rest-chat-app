@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
-from .models import CustomUser, Room
+from .models import CustomUser, Room, Message
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
@@ -49,7 +49,7 @@ class UserMenuSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_id = self.context['user_id']
         with transaction.atomic():
-            #todo authenticate
+            # todo authenticate
             owner = get_object_or_404(CustomUser, username=user_id)
             room = Room(
                 name=validated_data['name'],
@@ -59,3 +59,14 @@ class UserMenuSerializer(serializers.ModelSerializer):
             room.members.set(validated_data['members'])
             room.members.add(owner)
             return room
+
+
+class MessageSerializer(serializers.Serializer):
+    sender_username = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Message
+        fields = ['sender_username', 'content', 'timestamp']
+
+    def get_sender_username(self):
+        return [self.sender_username]
