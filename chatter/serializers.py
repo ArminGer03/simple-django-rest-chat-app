@@ -52,4 +52,5 @@ class UserMenuSerializer(serializers.ModelSerializer):
             )
             room.save()
             room.members.set(validated_data['members'])
+            room.members.add(owner)
             return room
