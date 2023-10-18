@@ -61,12 +61,8 @@ class UserMenuSerializer(serializers.ModelSerializer):
             return room
 
 
-class MessageSerializer(serializers.Serializer):
-    sender_username = serializers.SerializerMethodField()
+class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['sender_username', 'content', 'timestamp']
-
-    def get_sender_username(self):
-        return [self.sender_username]
+        fields = ['sender', 'room', 'content', 'timestamp']
