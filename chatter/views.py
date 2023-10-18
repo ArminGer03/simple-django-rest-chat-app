@@ -37,6 +37,6 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
         return self.create(request, *args, **kwargs)
 
 
-class RoomMessages(ModelViewSet):
+class RoomMessages(GenericAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
