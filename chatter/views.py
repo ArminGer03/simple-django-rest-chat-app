@@ -26,7 +26,6 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
         serializer = UserMenuSerializer(queryset, many=True)
         return Response(serializer.data)
 
-
     def get_serializer_context(self):
         context = super().get_serializer_context()
         # id value is set in self kwargs
@@ -45,6 +44,10 @@ class RoomMessages(ModelViewSet):
         queryset = Message.objects.filter(room=room)
         return queryset
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({'user_id': self.kwargs['id'], 'room_id': self.kwargs['room_pk']})
+        return context
     # def get(self, request, *args, **kwargs):
     #     room = get_object_or_404(Room, name=self.kwargs['pk'])
     #     queryset = Message.objects.filter(room=room)

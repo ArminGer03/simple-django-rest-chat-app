@@ -49,7 +49,6 @@ class UserMenuSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_id = self.context['user_id']
         with transaction.atomic():
-            # todo authenticate
             owner = get_object_or_404(CustomUser, username=user_id)
             room = Room(
                 name=validated_data['name'],
@@ -62,7 +61,14 @@ class UserMenuSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Message
-        fields = ['sender', 'room', 'content', 'timestamp']
+        fields = ['sender', 'content', 'timestamp']
+        extra_kwargs = {'sender': {'read_only': True}}
+
+    def create(self, validated_data):
+        room_name = self.context['room_id']
+        room = get_object_or_404(Room, name=room_name)
+        user_id = self.context['user_id']
+        sender = get_object_or_404(CustomUser, username=user_id)
+        return Message.objects.create(room=room, sender=sender, **validated_data)
