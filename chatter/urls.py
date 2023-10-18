@@ -1,5 +1,6 @@
-from django.urls import path, include
-from rest_framework_nested import routers
+from django.urls import path
+
+# from rest_framework_nested import routers
 from .views import RegisterUser, RoomMessages, UserMenu
 
 # /domain/ <- Domains list
