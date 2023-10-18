@@ -21,7 +21,7 @@ from .views import RegisterUser, RoomMessages, UserMenu
 urlpatterns = [
     path('register/', RegisterUser.as_view(), name='register'),
     path('user/<id>/', UserMenu.as_view(), name='user_menu'),
-    path('user/<id>/room/<room_name>', RoomMessages.as_view(), name='room_messages'),
+    path('user/<id>/room/<room_name>/', RoomMessages.as_view(), name='room_messages'),
     # path('login/', user_login, name='login'),
     # path('logout/', user_logout, name='logout'),
 ]

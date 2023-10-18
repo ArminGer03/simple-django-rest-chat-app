@@ -38,5 +38,8 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
 
 
 class RoomMessages(GenericAPIView):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
+    def get(self, request, *args, **kwargs):
+        room = get_object_or_404(RoomMessages, room=self.kwargs['room_name'])
+        queryset = Message.objects.filter(room=room)
+        serializer = UserMenuSerializer(queryset, many=True)
+        return Response(serializer.data)
