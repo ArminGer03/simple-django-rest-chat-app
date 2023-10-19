@@ -3,10 +3,10 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
-from rest_framework.pagination import PageNumberPagination
 from .serializers import UserSerializer, UserMenuSerializer, MessageSerializer
 from .models import Message
 from .models import Room, CustomUser
+from .pagination import DefaultPagination
 
 
 class RegisterUser(mixins.CreateModelMixin, GenericAPIView):
@@ -18,7 +18,7 @@ class RegisterUser(mixins.CreateModelMixin, GenericAPIView):
 
 class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIView):
     serializer_class = UserMenuSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = DefaultPagination
 
     def get_queryset(self):
         return Room.objects.all
@@ -41,7 +41,7 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
 
 class RoomMessages(ModelViewSet):
     serializer_class = MessageSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = DefaultPagination
     filter_backends = [SearchFilter]
     search_fields = ['content']
 
