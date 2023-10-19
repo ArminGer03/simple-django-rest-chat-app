@@ -2,6 +2,7 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import SearchFilter
 from .models import Message
 from .serializers import UserSerializer, UserMenuSerializer, MessageSerializer
 from .models import Room, CustomUser
@@ -38,6 +39,8 @@ class UserMenu(mixins.RetrieveModelMixin, mixins.CreateModelMixin, GenericAPIVie
 
 class RoomMessages(ModelViewSet):
     serializer_class = MessageSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['content']
 
     def get_queryset(self):
         room = get_object_or_404(Room, name=self.kwargs['room_pk'])
