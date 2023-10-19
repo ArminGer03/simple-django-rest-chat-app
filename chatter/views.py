@@ -48,11 +48,3 @@ class RoomMessages(ModelViewSet):
         context = super().get_serializer_context()
         context.update({'user_id': self.kwargs['id'], 'room_id': self.kwargs['room_pk']})
         return context
-    # def get(self, request, *args, **kwargs):
-    #     room = get_object_or_404(Room, name=self.kwargs['pk'])
-    #     queryset = Message.objects.filter(room=room)
-    #     serializer = UserMenuSerializer(queryset, many=True)
-    #     return Response(serializer.data)
-    #
-    # def post(self, request, *args, **kwargs):
-    #     return self.create(request, *args, **kwargs)
