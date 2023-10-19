@@ -47,7 +47,7 @@ class RoomMessages(ModelViewSet):
 
     def get_queryset(self):
         room = get_object_or_404(Room, name=self.kwargs['room_pk'])
-        queryset = Message.objects.filter(room=room)
+        queryset = Message.objects.order_by('-timestamp').filter(room=room)
         return queryset
 
     def get_serializer_context(self):
