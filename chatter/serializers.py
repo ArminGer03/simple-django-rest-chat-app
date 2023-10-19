@@ -61,10 +61,15 @@ class UserMenuSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    sender_username = serializers.SerializerMethodField()
+
     class Meta:
         model = Message
-        fields = ['sender', 'content', 'timestamp']
-        extra_kwargs = {'sender': {'read_only': True}}
+        fields = ['sender_username', 'content', 'timestamp']
+        extra_kwargs = {'sender_username': {'read_only': True}}
+
+    def get_sender_username(self, obj):
+        return obj.sender.username
 
     def create(self, validated_data):
         room_name = self.context['room_id']
